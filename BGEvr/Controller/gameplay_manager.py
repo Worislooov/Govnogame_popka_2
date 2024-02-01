@@ -3,8 +3,9 @@ from View import render
 
 class Game():
     def __init__(self, user_id=-1):
-        self.data_loader = Data_loader.Data()
-        self.user_data = self.data_loader.load_user_data(user_id=user_id)
+        self.user_id = user_id
+        self.data_loader = Data_loader.Data(self.user_id,0)
+        self.user_data = self.data_loader.load_user_data()
         self.building_data = self.data_loader.load_game_data()
         self.render = render.Render()
 
@@ -30,7 +31,7 @@ class Game():
             print(_building["position"], "building complete pos")
             print(_building["position"], "Ready Pos\n\n")
             #print(self.user_data["houses_data"])
-            self.data_loader.save_user_data(user_id=-1, data=self.user_data)
+            self.data_loader.save_user_data()
             print(self.user_data)
 
 

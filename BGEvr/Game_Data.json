@@ -20,7 +20,7 @@
       "position": null,
       "can_delete": true,
       "level": 1,
-      "texture": "small_factory.jpg",
+      "texture": "small_factory.png",
       "max_level": 5,
       "modify": {
         "wood_generation": 1
