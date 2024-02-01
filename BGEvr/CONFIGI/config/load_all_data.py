@@ -6,7 +6,6 @@ class LoadData:
             self.file = json.load(f)
     
     def load_token(self):
-        print(self.file["token"])
         return self.file["token"]
     
     def load_player_id(self):

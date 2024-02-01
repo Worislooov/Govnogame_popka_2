@@ -4,20 +4,21 @@ import json
 
 #Game Class
 class Data():
-    def __init__(self):
-        pass
+    def __init__(self,user_id):
+        self.user_id = user_id
+        self.data = 0
 
-    def save_user_data(self, user_id=-1, data=None):
-        with open(f'BEST_GAME_EVERRRRR/saves/{user_id}.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+    def save_user_data(self):
+        with open(f'BGEvr/saves/{self.user_id}.json', 'w', encoding='utf-8') as f:
+            json.dump(self.data, f, ensure_ascii=False, indent=4)
 
-    def load_user_data(self, user_id=-1):
+    def load_user_data(self):
         try:
-            with open(f'BEST_GAME_EVERRRRR/saves/{user_id}.json', 'r', encoding='utf-8') as f:
+            with open(f'BGEvr/saves/{self.user_id}.json', 'r', encoding='utf-8') as f:
                 self.data = json.load(f)
         
         except:
-            with open(f'BEST_GAME_EVERRRRR/saves/{user_id}.json', 'w', encoding='utf-8') as f:
+            with open(f'BGEvr/saves/{self.user_id}.json', 'w', encoding='utf-8') as f:
                 self.data = {
                     "money":  100,
                     "units": 0,
@@ -44,7 +45,7 @@ class Data():
         return map
 
     def load_game_data(self):
-        with open('BEST_GAME_EVERRRRR/Game_Data.json', 'r', encoding="utf-8") as f:
+        with open('BGEvr/Game_Data.json', 'r', encoding="utf-8") as f:
             data = json.load(f)
 
         return data

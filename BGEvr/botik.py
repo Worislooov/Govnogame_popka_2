@@ -1,11 +1,15 @@
 from CONFIGI.config.load_all_data import LoadData
+from Model.player import *
+from View.ViewTG import ViewTG
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Contact
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler,CallbackQueryHandler
 class RunGameBot:
     def __init__(self):
         self.txt = ''
-        self.dataloader = LoadData("BEST_GAME_EVERRRRR/CONFIGI/data/bot_data.json")
+        self.player_view =0
+        self.dataloader = LoadData("BGEvr/CONFIGI/data/bot_data.json")
         self.token = self.dataloader.load_token()
+        self.player = 0
         self.used_keyboard = []
         self.main_keyboard = [
             [InlineKeyboardButton("статистика", callback_data='info')],
@@ -15,7 +19,7 @@ class RunGameBot:
              InlineKeyboardButton("▶️",callback_data="r")],
             [InlineKeyboardButton("🔽", callback_data='d')],
             [InlineKeyboardButton("следующий ход",callback_data="next_move")],
-            [InlineKeyboardButton("ЭТО МОДИФИКАЦИ АААААААААААААААААААА",callback_data='mod')]
+            #[InlineKeyboardButton("ЭТО МОДИФИКАЦИ АААААААААААААААААААА",callback_data='mod')]
         ]
         self.build_keyboard = [
             [InlineKeyboardButton("домик", callback_data='house_lvl_1')],
@@ -28,6 +32,10 @@ class RunGameBot:
 
 
     def play_game(self,update : Update,context:CallbackContext):
+        self.user = update.message.from_user
+        self.player = Player("-1")
+        self.player_view = ViewTG(self.user.id)
+        self.player_view.send_pic(update=update)
         reply_markup = InlineKeyboardMarkup(self.main_keyboard)
         update.message.reply_text(f"Чо делать будешь? \n {self.txt}",reply_markup=reply_markup)
     def move_button(self,update:Update,context:CallbackContext):
@@ -41,6 +49,6 @@ class RunGameBot:
         if query.data == 'main_page':
             self.used_keyboard = self.main_keyboard
         if query.data == 'info':
-            self.txt += 'papapepagemabodi'
-        update.callback_query.message.edit_text(f"Чо делать будешь? \n {self.txt}",reply_markup=InlineKeyboardMarkup(self.used_keyboard))
+            self.txt += self.player.player_info()
+        update.callback_query.message.edit_text(f"Чё делать будешь? \n {self.txt}",reply_markup=InlineKeyboardMarkup(self.used_keyboard))
         self.txt = ''
